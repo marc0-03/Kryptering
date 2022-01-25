@@ -1,7 +1,7 @@
 public class Kryp1 {
     public static void main(String[] args) {
-        String message = "Tjabafhkasjdbf";
-        String BigKey = "arb";
+        String message = "fart";
+        String BigKey = "dart";
 
         System.out.println("---------");
         int n = 0;
@@ -12,7 +12,10 @@ public class Kryp1 {
             System.out.println(Integer.toBinaryString(message.charAt(i)) + message.charAt(i));
             System.out.println(Integer.toBinaryString(BigKey.charAt(n)) + BigKey.charAt(n));
             String s = Integer.toBinaryString(message.charAt(i) ^ BigKey.charAt(n));
-            System.out.println(s +((char) Integer.parseInt(s)) + "\n");
+            while (s.length()<7){
+                s="0"+s;
+            }
+            System.out.println(s +((char) Integer.parseInt(s,2)) + "\n");
             n++;
         }
 
