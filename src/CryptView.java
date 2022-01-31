@@ -42,7 +42,8 @@ public class CryptView {
         return textField1.getText();
     }
 
-    public void setResult(int result) {
+    public void setResult(String result) {
+        this.textArea1.setText("");
         this.textArea1.setText("" + result);
     }
 }

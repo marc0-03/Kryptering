@@ -17,17 +17,12 @@ public class CryptController {
         frame.setVisible(true);
 
 
-        view.getSaveButton().addActionListener(actionEvent -> model.Save(view.getTextArea1()));
+        view.getSaveButton().addActionListener(actionEvent -> model.Save(view.getTextArea1()) );
         view.getSaveAsButton().addActionListener(actionEvent -> model.SaveAs(view.getTextArea1()));
-        view.getLoadFileButton().addActionListener(actionEvent -> model.Load(view.getTextArea1()));
+        view.getLoadFileButton().addActionListener(actionEvent -> view.setResult(model.Load()));
 
-        view.getEncryptButton().addActionListener(actionEvent -> model.Encrypt(view.getTextArea1(), view.getKey()));
-        view.getEncryptWithFileButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                model.Encrypt(view.getTextArea1(), model.getFile());
-            }
-        });
+        view.getEncryptButton().addActionListener(actionEvent -> view.setResult(model.Encrypt(view.getTextArea1(), view.getKey())));
+        view.getEncryptWithFileButton().addActionListener(actionEvent -> view.setResult(model.Encrypt(view.getTextArea1(), model.getFile())));
     }
 
     public static void main(String[] args) {

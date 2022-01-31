@@ -49,7 +49,7 @@ public class CryptModel {
         outFile.flush();
         outFile.close();
     }
-    public void Load(JTextArea textArea1) {
+    public String Load() {
         JFileChooser fc = new JFileChooser();
         int resultat = fc.showOpenDialog(null);
         if (resultat != JFileChooser.APPROVE_OPTION) {
@@ -67,18 +67,21 @@ public class CryptModel {
         BufferedReader inFile = new BufferedReader(fr);
 
         String line;
-        textArea1.setText("");
+        String result = "";
         try {
             while ((line = inFile.readLine()) != null) {
-                textArea1.append(line + "\n");
+                result+=line+"\n";
             }
             inFile.close();
         } catch (IOException E) {
             E.printStackTrace();
         }
+        return result;
     }
-    public void Encrypt(JTextArea textArea1, String key) {
+
+    public String Encrypt(JTextArea textArea1, String key) {
         int n = 0;
+        String result="";
         char ch;
         for (int i = 0; i<textArea1.getText().length(); i++) {
             if (n>=key.length()) {
@@ -86,10 +89,14 @@ public class CryptModel {
             }
             ch = (char) Integer.parseInt(Integer.toBinaryString(textArea1.getText().charAt(i) ^ key.charAt(n)),2);
 
-           textArea1.setText(textArea1.getText().substring(0, i) + ch + textArea1.getText().substring(i+1));
+
+
+           //textArea1.setText(textArea1.getText().substring(0, i) + ch + textArea1.getText().substring(i+1));
+            result+=ch;
 
             n++;
         }
+        return result;
     }
 
     public String getFile() {
