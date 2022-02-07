@@ -68,7 +68,6 @@ public class CryptModel {
             JOptionPane.showMessageDialog(null, "No key value\nDidn't encrypt");
             return textArea1.getText();
         } else {
-            System.out.println(key);
             int n = 0;
             String result = "";
             char ch;
@@ -132,7 +131,6 @@ public class CryptModel {
             } catch (IOException E) {
                 E.printStackTrace();
             }
-            System.out.println(result);
             int n = 0;
             String newtext = "";
             char ch;
@@ -146,7 +144,6 @@ public class CryptModel {
 
                 n++;
             }
-            System.out.println(newtext);
             PrintWriter txtOut = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
             txtOut.write(newtext);
             txtOut.flush();

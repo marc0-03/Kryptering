@@ -60,7 +60,6 @@ public class CryptView {
             int resultat = fc.showOpenDialog(null);
             if (resultat != JFileChooser.APPROVE_OPTION) {
                 System.out.println("ingen fil valdes");
-                //System.exit(0);
             } else {
                 temp = fc.getSelectedFile().getAbsolutePath();
             }
@@ -75,7 +74,6 @@ public class CryptView {
             int resultat = fc.showOpenDialog(null);
             if (resultat != JFileChooser.APPROVE_OPTION) {
                 System.out.println("ingen fil valdes");
-                //System.exit(0);
             } else {
                 filename = fc.getSelectedFile().getAbsolutePath();
             }
