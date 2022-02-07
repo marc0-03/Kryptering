@@ -2,16 +2,15 @@ import javax.swing.*;
 import java.io.*;
 
 public class CryptModel {
-    public String filnamn;
 
     public static void main(String[] args) {
 
     }
-    public void Save(JTextArea textArea1){
-        if (! filnamn.equals("")) {
+    public void Save(JTextArea textArea1, String filename){
+        if (! filename.equals("")) {
             FileWriter fw = null;
             try {
-                fw = new FileWriter(filnamn);
+                fw = new FileWriter(filename);
             } catch (IOException g) {
                 g.printStackTrace();
             }
@@ -26,19 +25,10 @@ public class CryptModel {
             JOptionPane.showMessageDialog(null, "Ingen fil är vald\nKan inte spara");
         }
     }
-    public void SaveAs(JTextArea textArea1){
-        JFileChooser fc = new JFileChooser();
-        int result = fc.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            filnamn = fc.getSelectedFile().getAbsolutePath();
-        } else {
-            filnamn = "exempel";
-        }
-
-        filnamn = filnamn+".txt";
+    public void SaveAs(JTextArea textArea1, String filename){
         FileWriter fw = null;
         try {
-            fw = new FileWriter(filnamn);
+            fw = new FileWriter(filename);
         } catch (IOException g) {
             g.printStackTrace();
         }
@@ -49,17 +39,11 @@ public class CryptModel {
         outFile.flush();
         outFile.close();
     }
-    public String Load() {
-        JFileChooser fc = new JFileChooser();
-        int resultat = fc.showOpenDialog(null);
-        if (resultat != JFileChooser.APPROVE_OPTION) {
-            System.out.println("ingen fil valdes");
-            System.exit(0);
-        }
-        filnamn = fc.getSelectedFile().getAbsolutePath();
+    public String Load(String filename) {
+
         FileReader fr = null;
         try {
-            fr = new FileReader(filnamn);
+            fr = new FileReader(filename);
         } catch (FileNotFoundException E) {
             E.printStackTrace();
         }
@@ -80,37 +64,33 @@ public class CryptModel {
     }
 
     public String Encrypt(JTextArea textArea1, String key) {
-        int n = 0;
-        String result="";
-        char ch;
-        for (int i = 0; i<textArea1.getText().length(); i++) {
-            if (n>=key.length()) {
-                n = 0;
+        if (key.length()==0){
+            JOptionPane.showMessageDialog(null, "No key value\nDidn't encrypt");
+            return textArea1.getText();
+        } else {
+            System.out.println(key);
+            int n = 0;
+            String result = "";
+            char ch;
+            for (int i = 0; i < textArea1.getText().length(); i++) {
+                if (n >= key.length()) {
+                    n = 0;
+                }
+                ch = (char) Integer.parseInt(Integer.toBinaryString(textArea1.getText().charAt(i) ^ key.charAt(n)), 2);
+
+                result += ch;
+
+                n++;
             }
-            ch = (char) Integer.parseInt(Integer.toBinaryString(textArea1.getText().charAt(i) ^ key.charAt(n)),2);
-
-
-
-           //textArea1.setText(textArea1.getText().substring(0, i) + ch + textArea1.getText().substring(i+1));
-            result+=ch;
-
-            n++;
+            return result;
         }
-        return result;
     }
 
-    public String getFile() {
+    public String getFile(String tempfilename) {
         String text="";
-        JFileChooser fc = new JFileChooser();
-        int resultat = fc.showOpenDialog(null);
-        if (resultat != JFileChooser.APPROVE_OPTION) {
-            System.out.println("ingen fil valdes");
-            System.exit(0);
-        }
-        String tempfilnamn = fc.getSelectedFile().getAbsolutePath();
         FileReader fr = null;
         try {
-            fr = new FileReader(tempfilnamn);
+            fr = new FileReader(tempfilename);
         } catch (FileNotFoundException E) {
             E.printStackTrace();
         }
@@ -127,5 +107,50 @@ public class CryptModel {
             E.printStackTrace();
         }
         return text;
+    }
+
+    public void EncryptFile(String filename, String key) throws IOException {
+        if (key.length()==0){
+            JOptionPane.showMessageDialog(null, "No key value\nDidn't encrypt");
+        } else {
+            FileReader fr = null;
+            try {
+                fr = new FileReader(filename);
+            } catch (FileNotFoundException E) {
+                E.printStackTrace();
+            }
+            assert fr != null;
+            BufferedReader inFile = new BufferedReader(fr);
+
+            String line;
+            String result = "";
+            try {
+                while ((line = inFile.readLine()) != null) {
+                    result += line + "\n";
+                }
+                inFile.close();
+            } catch (IOException E) {
+                E.printStackTrace();
+            }
+            System.out.println(result);
+            int n = 0;
+            String newtext = "";
+            char ch;
+            for (int i = 0; i < result.length() - 1; i++) {
+                if (n >= key.length()) {
+                    n = 0;
+                }
+                ch = (char) Integer.parseInt(Integer.toBinaryString(result.charAt(i) ^ key.charAt(n)), 2);
+
+                newtext += ch;
+
+                n++;
+            }
+            System.out.println(newtext);
+            PrintWriter txtOut = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
+            txtOut.write(newtext);
+            txtOut.flush();
+            txtOut.close();
+        }
     }
 }

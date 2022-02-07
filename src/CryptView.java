@@ -9,9 +9,12 @@ public class CryptView {
     private JButton saveAsButton;
     private JButton encryptButton;
     private JTextField textField1;
+    private JButton encryptFileButton;
+    private JButton encryptFileWithFileButton;
+    private String filename;
 
     public CryptView() {
-
+        filename="";
     }
 
     public JPanel getPanel() {
@@ -33,9 +36,51 @@ public class CryptView {
     public JButton getEncryptWithFileButton() {
         return encryptWithFileButton;
     }
+    public JButton getEncryptFileButton() {
+        return encryptFileButton;
+    }
+    public JButton getEncryptFileWithFileButton() {
+        return encryptFileWithFileButton;
+    }
+
 
     public JTextArea getTextArea1() {
         return textArea1;
+    }
+
+
+    public String getFilename(){
+        return filename;
+    }
+
+    public String chooseFilename() {
+        String temp="";
+        JFileChooser fc = new JFileChooser();
+        while (temp=="") {
+            int resultat = fc.showOpenDialog(null);
+            if (resultat != JFileChooser.APPROVE_OPTION) {
+                System.out.println("ingen fil valdes");
+                //System.exit(0);
+            } else {
+                temp = fc.getSelectedFile().getAbsolutePath();
+            }
+        }
+        return temp;
+    }
+
+    public String chooseNewFilename() {
+        filename="";
+        JFileChooser fc = new JFileChooser();
+        while (filename=="") {
+            int resultat = fc.showOpenDialog(null);
+            if (resultat != JFileChooser.APPROVE_OPTION) {
+                System.out.println("ingen fil valdes");
+                //System.exit(0);
+            } else {
+                filename = fc.getSelectedFile().getAbsolutePath();
+            }
+        }
+        return filename;
     }
 
     public String getKey() {
@@ -44,6 +89,6 @@ public class CryptView {
 
     public void setResult(String result) {
         this.textArea1.setText("");
-        this.textArea1.setText("" + result);
+        this.textArea1.setText(result);
     }
 }
